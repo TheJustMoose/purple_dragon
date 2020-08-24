@@ -4,4 +4,8 @@ id2
 x
 +
 =
-TRUE FALSE
+true false
+a / b
+// c b
+xxx // p
+zzz

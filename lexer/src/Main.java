@@ -12,6 +12,8 @@ public class Main {
       //System.out.println(t.tag);
       t.Out();
     }
+
+    l.Words();
     System.out.println("finished.");
   }
 }

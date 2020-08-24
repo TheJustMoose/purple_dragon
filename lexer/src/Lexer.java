@@ -17,8 +17,28 @@ public class Lexer {
     reserve(new Word(Tag.FALSE, "false"));
   }
 
+  public void Words() {
+    System.out.println("\nWords:");
+    Iterator<Word> it = words.values().iterator();
+    while (it.hasNext()) {
+      Word w = it.next();
+      if (w.tag == Tag.ID)
+        w.Out();
+    }
+  }
+
   public Token scan() throws IOException {
     for (;; peek = (char)System.in.read()) {
+      if (peek == '/') {
+        peek = (char)System.in.read();
+        if (peek != '/')
+          return new Token('/');
+
+        // should skip comment
+        while (peek != '\r')
+          peek = (char)System.in.read();
+      }
+
       if (peek == ' ' || peek == '\t' || peek == '\r')
         continue;
       else if (peek == '\n')

@@ -27,16 +27,20 @@ public class Lexer {
     }
   }
 
+  private char getch() throws IOException {
+    return (char)System.in.read();
+  }
+
   public Token scan() throws IOException {
-    for (;; peek = (char)System.in.read()) {
+    for (;; peek = getch()) {
       if (peek == '/') {
-        peek = (char)System.in.read();
+        peek = getch();
         if (peek != '/')
           return new Token('/');
 
         // should skip comment
         while (peek != '\r')
-          peek = (char)System.in.read();
+          peek = getch();
       }
 
       if (peek == ' ' || peek == '\t' || peek == '\r')
@@ -51,7 +55,7 @@ public class Lexer {
       int v = 0;
       do {
         v = 10*v + Character.digit(peek, 10);
-        peek = (char)System.in.read();
+        peek = getch();
       } while (Character.isDigit(peek));
 
       return new Num(v);
@@ -61,7 +65,7 @@ public class Lexer {
       StringBuffer b = new StringBuffer();
       do {
         b.append(peek);
-        peek = (char)System.in.read();
+        peek = getch();
       } while (Character.isLetterOrDigit(peek));
       String s = b.toString();
       Word w = (Word)words.get(s);

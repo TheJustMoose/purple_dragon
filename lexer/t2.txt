@@ -4,8 +4,13 @@ id2
 x
 +
 =
+//
 true false
+/* 123
+abc_in_comments
+*/
 a / b
 // c b
 xxx // p
 zzz
+/*

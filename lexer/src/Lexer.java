@@ -25,28 +25,45 @@ public class Lexer {
       if (w.tag == Tag.ID)
         w.Out();
     }
+    System.out.print("\nLines:");
+    System.out.println(line);
   }
 
   private char getch() throws IOException {
-    return (char)System.in.read();
+    int res = System.in.read();
+    if (res == -1)
+      return 0;
+    return (char)res;
   }
 
   public Token scan() throws IOException {
-    for (;; peek = getch()) {
+    while ((peek = getch()) != 0) {
       if (peek == '/') {
         peek = getch();
-        if (peek != '/')
-          return new Token('/');
+        if (peek == 0)
+          break;
 
-        // should skip comment
-        while (peek != '\r')
+        if (peek == '/') {  // should skip // comment
+          while (peek != 0 && peek != '\r')
+            peek = getch();
+        } else if (peek == '*') {  // should skip /* comment
           peek = getch();
+          while (peek != 0 && peek != '*') {
+            peek = getch();
+            if (peek == '\n')
+              line++;
+            if (peek == '/')
+              break;
+          }
+        } else {
+          return new Token('/');
+        }
       }
 
       if (peek == ' ' || peek == '\t' || peek == '\r')
         continue;
       else if (peek == '\n')
-        line = line + 1;
+        line++;
       else
         break;
     }

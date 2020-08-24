@@ -7,7 +7,7 @@ public class Main {
     Lexer l = new Lexer();
     while (true) {
       Token t = l.scan();
-      if (t.tag == 65535)
+      if (t.tag == 0)
         break;
       //System.out.println(t.tag);
       t.Out();
